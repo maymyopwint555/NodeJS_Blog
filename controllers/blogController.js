@@ -1,3 +1,4 @@
+const mongoose = require('mongoose');
 const Blog = require('../models/blog')
 
 const blog_index = (req , res) => {
@@ -24,6 +25,10 @@ const blog_store = (req , res) => {
 
 const blog_details = (req , res) => {
     const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).render('404', { title: '404 Not Found' });
+    }
     
     Blog.findById(id)
         .then(result => {
@@ -34,6 +39,10 @@ const blog_details = (req , res) => {
 
 const blog_delete = (req , res) => {
     const id = req.params.id;
+
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(404).render('404', { title: '404 Not Found' });
+    }
     
     Blog.findByIdAndDelete(id)
         .then(result => {
